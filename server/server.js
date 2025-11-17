@@ -15,28 +15,40 @@ import { stripeWebhooks } from './controllers/orderController.js';
 const app = express();
 const port = process.env.PORT || 4000;
 
-await connectDB()
-await connectCloudinary()
+// Connect DB & Cloudinary
+await connectDB();
+await connectCloudinary();
 
-// Allow multiple origins
-const allowedOrigins = ['http://localhost:5173', '']
+// Allowed frontend domains 👇
+// Make sure to replace amplify URL after deployment
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://main.your-amplify-url.amplifyapp.com'  // replace later
+];
 
-app.post('/stripe', express.raw({type: 'application/json'}), stripeWebhooks)
+// Stripe webhook must use raw body
+app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
 
-// Middleware configuration
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({origin: allowedOrigins, credentials: true}));
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
-
+// Routes
 app.get('/', (req, res) => res.send("API is Working"));
-app.use('/api/user', userRouter)
-app.use('/api/seller', sellerRouter)
-app.use('/api/product', productRouter)
-app.use('/api/cart', cartRouter)
-app.use('/api/address', addressRouter)
-app.use('/api/order', orderRouter)
+app.use('/api/user', userRouter);
+app.use('/api/seller', sellerRouter);
+app.use('/api/product', productRouter);
+app.use('/api/cart', cartRouter);
+app.use('/api/address', addressRouter);
+app.use('/api/order', orderRouter);
 
-app.listen(port, ()=>{
-    console.log(Server is running on http://localhost:${port})
-})
+// Start server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
