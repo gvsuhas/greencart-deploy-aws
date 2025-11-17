@@ -23,7 +23,7 @@ await connectCloudinary();
 // Make sure to replace amplify URL after deployment
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://main.your-amplify-url.amplifyapp.com'  // replace later
+  'https://main.d3fcsr03fwf9v9.amplifyapp.com'  // replace later
 ];
 
 // Stripe webhook must use raw body
