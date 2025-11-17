@@ -15,18 +15,17 @@ import { stripeWebhooks } from './controllers/orderController.js';
 const app = express();
 const port = process.env.PORT || 4000;
 
-// Connect DB & Cloudinary
+// Connect DB and Cloudinary
 await connectDB();
 await connectCloudinary();
 
-// Allowed frontend domains 👇
-// Make sure to replace amplify URL after deployment
+// Allowed frontend domains
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://main.d3fcsr03fwf9v9.amplifyapp.com'  // replace later
+  'https://main.d3fcsr03fwf9v9.amplifyapp.com'
 ];
 
-// Stripe webhook must use raw body
+// Stripe webhook
 app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
 
 // Middleware
@@ -40,7 +39,7 @@ app.use(
 );
 
 // Routes
-app.get('/', (req, res) => res.send("API is Working"));
+app.get('/', (req, res) => res.send('API is Working'));
 app.use('/api/user', userRouter);
 app.use('/api/seller', sellerRouter);
 app.use('/api/product', productRouter);
@@ -50,6 +49,6 @@ app.use('/api/order', orderRouter);
 
 // Start server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running at http://localhost:${port}`);
 });
 
